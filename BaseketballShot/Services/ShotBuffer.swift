@@ -7,35 +7,33 @@
 
 struct ShotBuffer<T> {
     private var buffer: [T] = []
-
+    private let persistenceHandler: ((T) -> Void)?
+    
     /// Checks if the buffer is empty.
     var isEmpty: Bool {
-        return buffer.isEmpty
+        buffer.isEmpty
     }
 
     /// The number of items currently in the buffer.
     var count: Int {
-        return buffer.count
+        buffer.count
     }
 
     /// Initializes an empty buffer.
-    init() {}
-}
-extension ShotBuffer {
+    /// - Parameter persistenceHandler: Optional closure to persist each enqueued item.
+    init(persistenceHandler: ((T) -> Void)? = nil) {
+        self.persistenceHandler = persistenceHandler
+    }
+
     /// Adds a new element to the back of the queue.
     mutating func enqueue(_ element: T) {
         buffer.append(element)
+        persistenceHandler?(element) // Save to Core Data if handler is set
     }
-}
 
-extension ShotBuffer {
     /// Removes and returns the element at the front of the queue.
     mutating func dequeue() -> T? {
-        // Return nil if the buffer is empty
-        guard !buffer.isEmpty else {
-            return nil
-        }
-        // Remove the element from the front
+        guard !buffer.isEmpty else { return nil }
         return buffer.removeFirst()
     }
 }

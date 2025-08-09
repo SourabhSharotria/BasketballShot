@@ -1,0 +1,66 @@
+@startuml
+title BasketballShot App - Integrated Architecture & Flow
+
+actor User
+
+rectangle "Network Layer" {
+    participant "Live Shot Feed\n(Network Service)" as NS
+    participant "Headless SDK/Socket Client" as SDK
+}
+
+rectangle "Data/Service Layer" {
+    participant "LiveShotService" as Service
+    participant "ShotBuffer"
+    participant "ShotFeedSDKWrapper" as Wrapper
+}
+
+rectangle "ViewModel Layer" {
+    participant "PlayerViewModel" as PlayerVM
+    participant "ShotChartViewModel" as ShotChartVM
+    participant "CameraControlViewModel" as CameraVM
+    participant "GameStateViewModel" as GameVM
+}
+
+rectangle "Rendering Layer" {
+    participant "CourtScene"
+    participant "CameraManager"
+    participant "ShotAnimator"
+}
+
+rectangle "UI Layer" {
+    participant "SceneCourt"
+    participant "PlayerListView"
+    participant "ShotChartView"
+}
+
+== App Start ==
+User -> SceneCourt : Launch App
+SceneCourt -> PlayerVM : Init
+SceneCourt -> ShotChartVM : Init
+SceneCourt -> CameraVM : Init
+SceneCourt -> GameVM : Init
+
+== Normal Flow ==
+PlayerVM -> Service : Subscribe to live feed
+NS --> SDK : Stream shot data
+SDK -> Wrapper : Parse SDK format
+Wrapper -> Service : Deliver Shot event
+Service -> ShotBuffer : Store event
+Service -> PlayerVM : Notify update
+Service -> ShotChartVM : Notify update
+PlayerVM -> CourtScene : Update players
+ShotChartVM -> ShotAnimator : Animate shot
+CourtScene -> SceneCourt : Refresh UI
+
+== Error Handling ==
+NS -x SDK : Network hiccup / frame loss
+Service -> ShotBuffer : Continue playback from buffer
+alt Buffer empty
+    Service -> Wrapper : Request resync point
+    Wrapper -> SDK : Fetch catch-up frames
+    SDK -> Wrapper : Return frames
+    Wrapper -> Service : Feed frames
+end
+Service -> PlayerVM : Resume updates
+Service -> ShotChartVM : Resume updates
+@enduml

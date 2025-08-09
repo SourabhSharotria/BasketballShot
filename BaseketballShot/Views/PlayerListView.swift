@@ -11,12 +11,13 @@ import SwiftUI
 
 struct PlayersListView: View {
     @StateObject var vm = PlayersViewModel()
+    @EnvironmentObject var liveShotService: LiveShotService
 
     var body: some View {
         NavigationStack {
             List(vm.players) { player in
                 NavigationLink(destination: {
-                    let chartVM = ShotChartViewModel(playerId: player.playerId)
+                    let chartVM = ShotChartViewModel(playerId: player.playerId, liveShotService: liveShotService)
                     chartVM.loadDemoData()
                     return ShotChartView(player: player, viewModel: chartVM)
                 }()) {

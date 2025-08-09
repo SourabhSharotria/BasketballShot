@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D5576362E4662AD009534DB /* XCTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5576342E4662AD009534DB /* XCTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D5576392E4662F9009534DB /* XCTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5576342E4662AD009534DB /* XCTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0D55797A2E473C8E009534DB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D5579792E473C8D009534DB /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		0D5576342E4662AD009534DB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		0D5579792E473C8D009534DB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0DA5932F2E4368CB0051CCED /* BaseketballShot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaseketballShot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DA5933C2E4368CD0051CCED /* BaseketballShotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BaseketballShotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DA593462E4368CD0051CCED /* BaseketballShotUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BaseketballShotUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D55797A2E473C8E009534DB /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +150,7 @@
 		0D5576332E4662AD009534DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D5579792E473C8D009534DB /* CoreData.framework */,
 				0D5576342E4662AD009534DB /* XCTest.framework */,
 			);
 			name = Frameworks;
