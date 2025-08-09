@@ -85,11 +85,21 @@
 			);
 			target = 0DA5933B2E4368CD0051CCED /* BaseketballShotTests */;
 		};
+		0D55785D2E47250E009534DB /* Exceptions for "BaseketballShot" folder in "BaseketballShotTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Services/ShotBuffer.swift,
+			);
+			target = 0DA5933B2E4368CD0051CCED /* BaseketballShotTests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0DA593312E4368CB0051CCED /* BaseketballShot */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0D55785D2E47250E009534DB /* Exceptions for "BaseketballShot" folder in "BaseketballShotTests" target */,
+			);
 			path = BaseketballShot;
 			sourceTree = "<group>";
 		};
