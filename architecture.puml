@@ -1,66 +1,56 @@
 @startuml
-title BasketballShot App - Integrated Architecture & Flow
+package "Views" {
+    class CourtScene
+    class ShotChartView
+    class PlayerListView
+    class ShotAnimator
+    class CameraManager
 
-actor User
-
-rectangle "Network Layer" {
-    participant "Live Shot Feed\n(Network Service)" as NS
-    participant "Headless SDK/Socket Client" as SDK
+    CourtScene --> ShotAnimator
+    CourtScene --> CameraManager
 }
 
-rectangle "Data/Service Layer" {
-    participant "LiveShotService" as Service
-    participant "ShotBuffer"
-    participant "ShotFeedSDKWrapper" as Wrapper
+package "ViewModels" {
+    class CameraControlViewModel
+    class GameStateViewModel
+    class ShotChartViewModel
+    class PlayerViewModel
+
+    CameraControlViewModel --> CourtScene
+    GameStateViewModel --> CourtScene
+    ShotChartViewModel --> ShotChartView
+    PlayerViewModel --> PlayerListView
 }
 
-rectangle "ViewModel Layer" {
-    participant "PlayerViewModel" as PlayerVM
-    participant "ShotChartViewModel" as ShotChartVM
-    participant "CameraControlViewModel" as CameraVM
-    participant "GameStateViewModel" as GameVM
+package "Models" {
+    class DBModel
+    class CourtModel
+    class ShotModel
+    class PlayerModel
+
+    CourtModel --> ShotModel
+    PlayerModel --> ShotModel
+    ShotModel --> CourtModel
 }
 
-rectangle "Rendering Layer" {
-    participant "CourtScene"
-    participant "CameraManager"
-    participant "ShotAnimator"
+package "Services" {
+    class CoreDataService
+    class LiveShotService
+    class ShotDataService
+    class ShotBuffer
+    class ShotFeedSDKWrapper
+
+    CoreDataService --> LiveShotService
+    CoreDataService --> ShotDataService
+
+    LiveShotService --> ShotBuffer
+    LiveShotService --> ShotFeedSDKWrapper
 }
 
-rectangle "UI Layer" {
-    participant "SceneCourt"
-    participant "PlayerListView"
-    participant "ShotChartView"
+package "Network" {
+    class APIEndpoints
+    class NetworkManager
+
+    APIEndpoints --> NetworkManager
 }
-
-== App Start ==
-User -> SceneCourt : Launch App
-SceneCourt -> PlayerVM : Init
-SceneCourt -> ShotChartVM : Init
-SceneCourt -> CameraVM : Init
-SceneCourt -> GameVM : Init
-
-== Normal Flow ==
-PlayerVM -> Service : Subscribe to live feed
-NS --> SDK : Stream shot data
-SDK -> Wrapper : Parse SDK format
-Wrapper -> Service : Deliver Shot event
-Service -> ShotBuffer : Store event
-Service -> PlayerVM : Notify update
-Service -> ShotChartVM : Notify update
-PlayerVM -> CourtScene : Update players
-ShotChartVM -> ShotAnimator : Animate shot
-CourtScene -> SceneCourt : Refresh UI
-
-== Error Handling ==
-NS -x SDK : Network hiccup / frame loss
-Service -> ShotBuffer : Continue playback from buffer
-alt Buffer empty
-    Service -> Wrapper : Request resync point
-    Wrapper -> SDK : Fetch catch-up frames
-    SDK -> Wrapper : Return frames
-    Wrapper -> Service : Feed frames
-end
-Service -> PlayerVM : Resume updates
-Service -> ShotChartVM : Resume updates
 @enduml

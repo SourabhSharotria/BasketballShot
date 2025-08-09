@@ -4,10 +4,29 @@
 Documentation & Guidelines
 This document outlines the architectural foundation and best practices for developing the 3D Basketball Shot Chart Viewer. The system is designed with a modular, layered architecture to ensure clarity, maintainability, and efficient collaboration.
 
-1. Architecture Layers & Responsibilities
+#Prerequisites
+
+Before you start developing or contributing to the BasketballShot app, ensure that you meet the following prerequisites:
+
+**1. Development Environment**
+
+Xcode (version 16.4 or higher)
+
+Download it from the Mac App Store.
+
+Ensure that Xcode is configured for Swift 5 or higher.
+
+**2. Dependencies**
+
+Ensure the following dependencies are installed:
+
+SceneKit for 3
+
+#1. Architecture Layers & Responsibilities
+
 The system is organized into distinct layers, each with a specific responsibility in the flow of data and presentation.
 
-1.1. View Layer
+##**1.1. View Layer**
 
 Responsibilities:
 
@@ -20,7 +39,7 @@ Key Tasks:
 Rendering: Updates the UI with data received from the ViewModel.
 User Input: Captures user gestures and triggers corresponding actions in the ViewModel.
 
-1.2. ViewModel Layer
+##**1.2. ViewModel Layer**
 
 Responsibilities:
 
@@ -36,7 +55,7 @@ Real-time Updates: Publishes updates to the View based on incoming data.
 
 Error Handling: Manages issues with data fetching and provides fallback options.
 
-1.3. Data Layer (Model)
+##**1.3. Data Layer (Model)**
 
 Responsibilities:
 
@@ -54,13 +73,19 @@ Data Parsing: Converts raw data (e.g., JSON) into structured data models.
 
 Data Caching: Stores data locally to minimize network requests.
 
-1.4 UI Layer
+**1.3.1 Data Persistence Layer** 
+
+Responsibilities:
+
+Manages the local storage(shot and player) using Core Data.
+
+##**1.4 UI Layer**
 
 The UI Layer presents the visual elements of the app that the user interacts with, displaying both static and dynamic content.
 
 Updates the UI dynamically based on real-time data from the ViewModel and Rendering Layer.
 
-1.4.1 Rendering Layer
+**1.4.1 Rendering Layer**
 
 Responsibilities:
 
@@ -74,7 +99,7 @@ Animation: Manages animations for shots, player movements, and other dynamic vis
 
 Camera Control: Adjusts the camera angle and zoom based on user interactions and data inputs.
 
-1.4.2 View Layer
+**1.4.2 View Layer**
 
 Responsibilities:
 
@@ -87,13 +112,8 @@ Dynamically update view eg: update View as new shot data and player positions ar
 Handles user gestures (e.g., tapping, rotating the view) and passes them to the ViewModel for further action.
 Manages views like the SceneCourt, PlayersListView, and ShotChartView, which are populated with real-time data.
 
-2. Data Flow and Interaction
 
-The Data Layer fetches live shot data and passes it to the ViewModel.
-The ViewModel processes the data and exposes it to the Rendering Layer via the Animation Coordinator.
-The Rendering Layer visualizes the court and animations based on the data provided.
-
-3. Performance Considerations & Fallbacks
+#2. Performance Considerations & Fallbacks
 
 60fps Rendering: The app is optimized for a smooth 60fps experience by minimizing draw calls, using GPU-friendly textures, and disabling physics for static elements.
 
@@ -107,7 +127,7 @@ Lower Frame Rates: Can drop to 30fps to maintain stability.
 
 Reduced Complexity: Limits the number of animated objects to improve performance.
 
-4. Testing Guidelines
+#3. Testing Guidelines
 
 Unit Tests: Implement unit tests to verify the data fetching logic, ViewModel updates, and utility functions.
 
@@ -115,7 +135,7 @@ UI Tests: Use UI tests to ensure that the user interface updates correctly with 
 
 Mock Data: Use mock data to simulate backend responses and test real-time data handling.
 
-5. Developer Guidelines
+#4. Developer Guidelines
 
 Code Style:
 Follow standard Swift conventions (camelCase for variables, PascalCase for classes).
